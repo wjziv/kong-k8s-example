@@ -2,11 +2,12 @@ kong:
   # DB-less mode
   env:
     database: "off"
+
   # Prepare for k8s Ingress manifests
   ingressController:
     enabled: true
     ingressClass: kong
-    installCRDs: true
+
   # There's an HTTP2 bug in Kong which creates
   # an excess of noise in the proxy logs.
   # The fix will be in Kong 2.8.2

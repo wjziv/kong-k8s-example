@@ -1,13 +1,9 @@
+stop:
+	helm uninstall kong
+
 start:
-	minikube start
-
-clean:
-	kubectl delete -f ./artifacts/kong-manifest.yaml
-
-go:
 	helm dep up ./helm/kong
-	helm template kong ./helm/kong > ./artifacts/kong-manifest.yaml
+	helm install kong ./helm/kong
 
-	kubectl apply -f ./artifacts/kong-manifest.yaml
 	sleep 10
 	minikube tunnel
