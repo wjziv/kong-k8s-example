@@ -6,6 +6,8 @@ It services a single backend application, an [echo-server](https://github.com/Ea
 
 ## Requirements
 
+- python 3
+- docker
 - helm v3
 - minikube
 
