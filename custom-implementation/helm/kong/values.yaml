@@ -1,0 +1,36 @@
+kong:
+
+  # Overwrite the kong image with the custom one.
+  image:
+    unifiedRepoTag: custom-kong:1.0.0
+    pullPolicy: IfNotPresent
+
+  env:
+    database: "off"
+    plugins: "bundled,header_check"
+
+    pluginserver_names: "python"
+    pluginserver_python_socket: >-
+      /usr/local/kong/python_pluginserver.sock
+    pluginserver_python_start_cmd: >-
+      /usr/local/bin/kong-python-pluginserver \
+        --plugins-directory /usr/local/kong/python-plugins \
+        --no-lua-style
+    pluginserver_python_query_cmd: >-
+      /usr/local/bin/kong-python-pluginserver \
+        --plugins-directory /usr/local/kong/python-plugins \
+        --no-lua-style \
+        --dump-all-plugins
+
+  # Prepare for k8s Ingress manifests
+  ingressController:
+    enabled: true
+    ingressClass: kong
+
+  # There's an HTTP2 bug in Kong which creates
+  # an excess of noise in the proxy logs.
+  # The fix will be in Kong 2.8.2
+  # https://github.com/Kong/kong/pull/8690
+  admin:
+    tls:
+      parameters: []
